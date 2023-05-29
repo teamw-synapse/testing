@@ -275,6 +275,13 @@ abstract class EntityStorageBase extends EntityHandlerBase implements EntityStor
     // were passed. The $ids array is reduced as items are loaded from cache,
     // and we need to know if it is empty for this reason to avoid querying the
     // database when all requested entities are loaded from cache.
+    if ($ids) {
+      foreach ($ids as $key => $value) {
+        if (!is_string($value) && !is_int($value)) {
+          $ids[$key] = (string) $value;
+        }
+      }
+    }
     $flipped_ids = $ids ? array_flip($ids) : FALSE;
     // Try to load entities from the static cache, if the entity type supports
     // static caching.
